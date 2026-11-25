@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#10b981" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Paso a Paso 2027" />
+  <link id="pwaManifestLink" rel="manifest" />
+  <title>Paso a Paso 2027 · Impulso Real by Tommy — Cada euro cuenta · Prosperidad desde lo cotidiano</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            carbon: '#090b0f',
+            slateDark: '#11151e',
+            slateCard: '#171c28',
+            slateBorder: '#252e40',
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      background-color: #090b0f;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    /* Scrollbar sutil y moderno */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090b0f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #252e40;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #374357;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .animate-shake {
+      animation: shake 0.35s ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-carbon text-slate-100 antialiased selection:bg-emerald-500/30 selection:text-emerald-200 flex flex-col justify-between">
+
+  <!-- ===================================================================== -->
+  <!-- PANTALLA DE BIENVENIDA / ONBOARDING (NUEVOS USUARIOS)                 -->
+  <!-- ===================================================================== -->
+  <div id="onboardingScreen" class="fixed inset-0 z-50 hidden overflow-y-auto bg-carbon/95 backdrop-blur-xl p-4 sm:p-6">
+    <div class="min-h-full flex items-center justify-center">
+      <div class="w-full max-w-lg rounded-3xl bg-slateCard border border-slateBorder p-6 sm:p-8 shadow-2xl shadow-black/70">
+        <!-- Cabecera Onboarding -->
+        <div class="flex items-center justify-between gap-3 pb-5 border-b border-slateBorder">
+          <div class="flex items-center gap-3">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-extrabold text-lg shadow-lg shadow-emerald-500/20">
+              TP
+            </div>
+            <div>
+              <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white">Paso a Paso 2027 · Impulso Real by Tommy</h1>
+              <p class="text-xs text-emerald-400 font-medium">Cada euro cuenta · Prosperidad desde lo cotidiano</p>
+            </div>
+          </div>
+          <span id="onboardingStepIndicator" class="rounded-full bg-slateDark border border-slateBorder px-3 py-1 text-xs font-semibold text-slate-300">
+            Paso 1 de 2
+          </span>
+        </div>
+
+        <!-- PASO 1: PERFIL FINANCIERO INICIAL -->
+        <form id="onboardingStep1Form" onsubmit="goToOnboardingStep2(event)" class="mt-5 space-y-4">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-white">Tu impulso empieza con lo que tienes hoy</h2>
+            <p class="text-xs text-slate-400 mt-0.5">No importa si tu sueldo es ajustado: ordenar cada euro sin agobios construye tranquilidad. Edítalo cuando quieras.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label for="obUserName" class="block text-xs font-medium text-slate-300 mb-1">Tu nombre o alias (opcional)</label>
+              <input type="text" id="obUserName" placeholder="Ej: Tommy, Alex, Laura..." class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label for="obBaseSalary" class="block text-xs font-medium text-slate-300 mb-1">Sueldo / Ingreso mensual (€)</label>
+              <input type="number" id="obBaseSalary" step="0.01" min="0" value="1200" required class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm font-bold text-emerald-400 tabular-nums focus:border-emerald-500 focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- Vivienda / Alquiler -->
+          <div class="rounded-2xl bg-slateDark border border-slateBorder p-3.5">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <label for="obRentAmount" class="text-xs font-semibold text-slate-200">Alquiler o Hipoteca mensual (€)</label>
+              <button type="button" onclick="setOnboardingNoRent()" class="rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 px-2.5 py-1 text-[11px] font-semibold text-emerald-300 transition">
+                0 € (No pago alquiler)
+              </button>
+            </div>
+            <input type="number" id="obRentAmount" step="0.01" min="0" value="0" required class="w-full rounded-xl bg-slateCard border border-slateBorder px-3.5 py-2 text-sm font-semibold text-white tabular-nums focus:border-emerald-500 focus:outline-none" />
+            <p class="mt-1.5 text-[11px] text-slate-400">Si pones más de 0 €, se añadirá automáticamente como categoría fija en tu presupuesto.</p>
+          </div>
+
+          <!-- Presupuestos iniciales sugeridos -->
+          <div>
+            <p class="text-xs font-semibold text-slate-300 mb-2">Presupuestos mensuales sugeridos (editables):</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="rounded-xl bg-slateDark border border-slateBorder p-2.5">
+                <label for="obBudgetFood" class="block text-[11px] text-slate-400 mb-1">🛒 Comida (€)</label>
+                <input type="number" id="obBudgetFood" min="0" step="1" value="250" required class="w-full rounded-lg bg-slateCard border border-slateBorder px-2 py-1.5 text-xs font-bold text-white tabular-nums focus:border-emerald-500 focus:outline-none" />
+              </div>
+              <div class="rounded-xl bg-slateDark border border-slateBorder p-2.5">
+                <label for="obBudgetFuel" class="block text-[11px] text-slate-400 mb-1">⛽ Transporte (€)</label>
+                <input type="number" id="obBudgetFuel" min="0" step="1" value="150" required class="w-full rounded-lg bg-slateCard border border-slateBorder px-2 py-1.5 text-xs font-bold text-white tabular-nums focus:border-emerald-500 focus:outline-none" />
+              </div>
+              <div class="rounded-xl bg-slateDark border border-slateBorder p-2.5">
+                <label for="obBudgetLeisure" class="block text-[11px] text-slate-400 mb-1">🎉 Ocio (€)</label>
+                <input type="number" id="obBudgetLeisure" min="0" step="1" value="150" required class="w-full rounded-lg bg-slateCard border border-slateBorder px-2 py-1.5 text-xs font-bold text-white tabular-nums focus:border-emerald-500 focus:outline-none" />
+              </div>
+              <div class="rounded-xl bg-slateDark border border-slateBorder p-2.5">
+                <label for="obBudgetOther" class="block text-[11px] text-slate-400 mb-1">📦 Otros (€)</label>
+                <input type="number" id="obBudgetOther" min="0" step="1" value="50" required class="w-full rounded-lg bg-slateCard border border-slateBorder px-2 py-1.5 text-xs font-bold text-white tabular-nums focus:border-emerald-500 focus:outline-none" />
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <label class="text-xs text-cyan-400 hover:text-cyan-300 cursor-pointer underline underline-offset-2">
+              ¿Ya tienes copia JSON? Importar aquí
+              <input type="file" accept=".json" class="hidden" onchange="importBackupJSON(event)" />
+            </label>
+            <button type="submit" class="w-full sm:w-auto rounded-xl bg-emerald-500 hover:bg-emerald-400 px-6 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/20 transition">
+              Continuar a Privacidad →
+            </button>
+          </div>
+        </form>
+
+        <!-- PASO 2: PRIVACIDAD Y CREACIÓN DE PIN PERSONAL -->
+        <form id="onboardingStep2Form" onsubmit="completeOnboarding(event)" class="hidden mt-5 space-y-4">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-white">Protege tu privacidad local</h2>
+            <p class="text-xs text-slate-400 mt-0.5">Tus cuentas se guardan únicamente en este navegador. Nadie externo tiene acceso.</p>
+          </div>
+
+          <!-- Opción de modo de acceso -->
+          <div class="grid grid-cols-2 gap-2.5 p-1 rounded-xl bg-slateDark border border-slateBorder">
+            <button type="button" id="obModePinBtn" onclick="setOnboardingSecurityMode(true)" class="rounded-lg py-2.5 text-xs font-bold bg-emerald-500 text-slate-950 shadow transition">
+              🔒 Crear PIN de 4 dígitos
+            </button>
+            <button type="button" id="obModeNoPinBtn" onclick="setOnboardingSecurityMode(false)" class="rounded-lg py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition">
+              ⚡ Entrar sin PIN
+            </button>
+          </div>
+
+          <div id="obPinFieldsBox" class="rounded-2xl bg-slateDark border border-slateBorder p-4 space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="obPin1" class="block text-xs font-medium text-slate-300 mb-1">Elige tu PIN (4 dígitos)</label>
+                <input type="password" id="obPin1" maxlength="4" pattern="\d{4}" inputmode="numeric" placeholder="••••" class="w-full rounded-xl bg-slateCard border border-slateBorder px-3 py-2.5 text-center font-mono text-lg tracking-widest text-white focus:border-emerald-500 focus:outline-none" />
+              </div>
+              <div>
+                <label for="obPin2" class="block text-xs font-medium text-slate-300 mb-1">Confirma tu PIN</label>
+                <input type="password" id="obPin2" maxlength="4" pattern="\d{4}" inputmode="numeric" placeholder="••••" class="w-full rounded-xl bg-slateCard border border-slateBorder px-3 py-2.5 text-center font-mono text-lg tracking-widest text-white focus:border-emerald-500 focus:outline-none" />
+              </div>
+            </div>
+            <p class="text-[11px] text-slate-400">Recuerda tu PIN: se te pedirá cada vez que abras TommyPlan 2027 en este dispositivo.</p>
+          </div>
+
+          <div id="obNoPinNoticeBox" class="hidden rounded-2xl bg-cyan-500/10 border border-cyan-500/25 p-4 text-xs text-cyan-200 leading-relaxed">
+            Entrarás directamente a tu panel sin contraseña. Si en el futuro compartes ordenador o móvil, podrás activar un PIN en <strong>Ajustes y Privacidad</strong>.
+          </div>
+
+          <div class="pt-2 flex items-center justify-between gap-3">
+            <button type="button" onclick="backToOnboardingStep1()" class="rounded-xl bg-slateDark border border-slateBorder px-4 py-2.5 text-xs font-semibold text-slate-300 hover:text-white transition">
+              ← Atrás
+            </button>
+            <button type="submit" class="rounded-xl bg-emerald-500 hover:bg-emerald-400 px-6 py-3 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/20 transition">
+              Empezar Paso a Paso 2027
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- PANTALLA DE BLOQUEO PRIVADO (PIN PERSONAL DE 4 DÍGITOS)               -->
+  <!-- ===================================================================== -->
+  <div id="lockScreen" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-carbon/95 backdrop-blur-xl p-4 transition-opacity duration-300">
+    <div id="pinCard" class="w-full max-w-sm rounded-3xl bg-slateCard border border-slateBorder p-7 shadow-2xl shadow-black/70 text-center">
+      <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+      <h1 class="text-xl font-extrabold tracking-tight text-white">Paso a Paso 2027 · Impulso Real by Tommy</h1>
+      <p class="text-[11px] text-emerald-400 font-medium mt-0.5">Cada euro cuenta · Prosperidad desde lo cotidiano</p>
+      <p id="lockScreenSubtitle" class="mt-2 text-xs text-slate-400">Introduce tu PIN personal para acceder</p>
+
+      <!-- Indicadores de puntos del PIN -->
+      <div class="my-6 flex justify-center gap-4" id="pinDots">
+        <span class="h-3.5 w-3.5 rounded-full border border-slate-600 bg-slate-800 transition-all duration-150"></span>
+        <span class="h-3.5 w-3.5 rounded-full border border-slate-600 bg-slate-800 transition-all duration-150"></span>
+        <span class="h-3.5 w-3.5 rounded-full border border-slate-600 bg-slate-800 transition-all duration-150"></span>
+        <span class="h-3.5 w-3.5 rounded-full border border-slate-600 bg-slate-800 transition-all duration-150"></span>
+      </div>
+
+      <p id="pinErrorMsg" class="mb-3 h-4 text-xs font-medium text-rose-400 opacity-0 transition-opacity">PIN incorrecto. Inténtalo de nuevo.</p>
+
+      <!-- Teclado numérico táctil -->
+      <div class="grid grid-cols-3 gap-3">
+        <button type="button" onclick="enterPinDigit('1')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">1</button>
+        <button type="button" onclick="enterPinDigit('2')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">2</button>
+        <button type="button" onclick="enterPinDigit('3')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">3</button>
+        <button type="button" onclick="enterPinDigit('4')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">4</button>
+        <button type="button" onclick="enterPinDigit('5')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">5</button>
+        <button type="button" onclick="enterPinDigit('6')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">6</button>
+        <button type="button" onclick="enterPinDigit('7')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">7</button>
+        <button type="button" onclick="enterPinDigit('8')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">8</button>
+        <button type="button" onclick="enterPinDigit('9')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">9</button>
+        <button type="button" onclick="clearPinInput()" class="h-14 rounded-2xl bg-slateDark/60 border border-slateBorder text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800 active:scale-95 transition">Borrar</button>
+        <button type="button" onclick="enterPinDigit('0')" class="pin-btn h-14 rounded-2xl bg-slateDark border border-slateBorder text-lg font-semibold text-white hover:bg-slate-800 active:scale-95 transition">0</button>
+        <button type="button" onclick="backspacePin()" class="h-14 rounded-2xl bg-slateDark/60 border border-slateBorder flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 active:scale-95 transition" aria-label="Retroceso">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Opción de recuperación con doble confirmación si olvida el PIN -->
+      <div class="mt-5 pt-4 border-t border-slateBorder/70">
+        <button type="button" id="lockResetBtn" onclick="handleLockScreenReset()" class="text-[11px] text-slate-500 hover:text-rose-400 transition">
+          ¿Olvidaste tu PIN? Restablecer perfil desde cero
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- NOTIFICACIÓN TOAST NO INTRUSIVA                                       -->
+  <!-- ===================================================================== -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ===================================================================== -->
+  <!-- APLICACIÓN PRINCIPAL                                                  -->
+  <!-- ===================================================================== -->
+  <div id="appShell" class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- HEADER SUPERIOR -->
+    <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-slateBorder">
+      <div class="flex items-start sm:items-center gap-3.5">
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-500 text-slate-950 font-extrabold text-xl shadow-lg shadow-emerald-500/20">
+          TP
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">Paso a Paso 2027 · Impulso Real by Tommy</h1>
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-xs font-semibold text-emerald-300">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+              Cada euro cuenta · Prosperidad desde lo cotidiano
+            </span>
+          </div>
+          <p id="headerGreetingText" class="text-xs sm:text-sm text-slate-400 mt-0.5">
+            Cada euro cuenta · Prosperidad desde lo cotidiano. Avanza mes a mes con calma y claridad.
+          </p>
+        </div>
+      </div>
+
+      <!-- Controles de cabecera -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" id="installAppHeaderBtn" onclick="triggerInstallOrGuide()" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 px-3.5 py-2.5 text-xs sm:text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/20 transition" title="Instalar o descargar app en Android">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span id="installAppBtnLabel">Instalar / Descargar App</span>
+        </button>
+
+        <button type="button" onclick="openSettingsModal()" class="inline-flex items-center gap-2 rounded-xl bg-slateCard hover:bg-slate-800 border border-slateBorder px-3.5 py-2.5 text-xs sm:text-sm font-medium text-slate-200 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          Ajustes y Privacidad
+        </button>
+
+        <button type="button" onclick="exportBackupJSON()" class="inline-flex items-center gap-2 rounded-xl bg-slateCard hover:bg-slate-800 border border-slateBorder px-3.5 py-2.5 text-xs sm:text-sm font-medium text-slate-200 transition" title="Descargar copia de seguridad JSON">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Exportar JSON
+        </button>
+
+        <label class="inline-flex items-center gap-2 rounded-xl bg-slateCard hover:bg-slate-800 border border-slateBorder px-3.5 py-2.5 text-xs sm:text-sm font-medium text-slate-200 cursor-pointer transition" title="Restaurar desde copia JSON">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+          </svg>
+          Importar
+          <input type="file" id="importJsonInput" accept=".json" class="hidden" onchange="importBackupJSON(event)" />
+        </label>
+
+        <button type="button" id="manualLockBtn" onclick="lockAppNow()" class="inline-flex items-center gap-1.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 px-3.5 py-2.5 text-xs sm:text-sm font-medium text-rose-300 transition" title="Bloquear pantalla ahora">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          Bloquear
+        </button>
+      </div>
+    </header>
+
+    <!-- NAVEGACIÓN DE MESES (DIC 2026 - DIC 2027) -->
+    <section class="mt-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Periodo Activo:</span>
+          <span id="activeMonthBadge" class="text-sm font-bold text-emerald-400">Enero 2027</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="navigateMonth(-1)" class="rounded-xl bg-slateCard border border-slateBorder px-3 py-1.5 text-xs font-medium text-slate-300 hover:bg-slate-800 transition">← Anterior</button>
+          <button type="button" onclick="navigateMonth(1)" class="rounded-xl bg-slateCard border border-slateBorder px-3 py-1.5 text-xs font-medium text-slate-300 hover:bg-slate-800 transition">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- Píldoras deslizables de todos los meses -->
+      <div id="monthSelectorBar" class="flex items-center gap-2 overflow-x-auto pb-2"></div>
+    </section>
+
+    <!-- BANNER MOTIVADOR DE HÁBITO DIARIO / MENSUAL (SIN CULPA) -->
+    <section class="mt-5 rounded-2xl bg-gradient-to-r from-emerald-950/45 via-slateCard to-cyan-950/35 border border-emerald-500/25 p-4 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md">
+      <div class="flex items-start sm:items-center gap-3">
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-bold text-sm">
+          ✦
+        </div>
+        <div>
+          <p class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Hábito de impulso · Prosperidad desde lo cotidiano</p>
+          <p id="dailyHabitBannerText" class="text-xs sm:text-sm text-slate-200 mt-0.5 leading-relaxed">
+            No hace falta ganar una fortuna para avanzar: apartar aunque sean 15 € o 25 € al inicio del mes crea un colchón real sin culpa.
+          </p>
+        </div>
+      </div>
+      <button type="button" onclick="cycleDailyHabitTip()" class="self-start sm:self-center shrink-0 rounded-xl bg-slateDark/90 hover:bg-slate-800 border border-slateBorder px-3 py-1.5 text-xs font-semibold text-cyan-300 transition">
+        Siguiente idea →
+      </button>
+    </section>
+
+    <!-- TARJETA / AVISO PWA PARA INSTALAR EN ANDROID -->
+    <section id="pwaAndroidBanner" class="mt-4 rounded-2xl bg-slateCard/90 border border-cyan-500/25 p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div class="space-y-1">
+        <div class="flex items-center gap-2">
+          <span class="rounded-md bg-cyan-500/15 border border-cyan-500/30 px-2 py-0.5 text-[11px] font-bold text-cyan-300">ANDROID PWA</span>
+          <h2 class="text-xs sm:text-sm font-bold text-white">Llévate la app en tu móvil Android</h2>
+        </div>
+        <p id="pwaAndroidGuideText" class="text-xs text-slate-300 leading-relaxed">
+          Si estás en Chrome Android, abre el menú <strong>⋮</strong> y toca <strong>«Instalar aplicación»</strong> o <strong>«Añadir a pantalla de inicio»</strong>. Para archivo <strong>.apk</strong>, pega tu URL HTTPS en <strong>PWABuilder</strong> y descárgalo.
+        </p>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button type="button" id="pwaBannerInstallAction" onclick="triggerInstallOrGuide()" class="rounded-xl bg-emerald-500 hover:bg-emerald-400 px-3.5 py-2 text-xs font-bold text-slate-950 transition">
+          Instalar ahora
+        </button>
+        <button type="button" onclick="dismissPwaBanner()" class="rounded-xl bg-slateDark hover:bg-slate-800 border border-slateBorder px-3 py-2 text-xs font-medium text-slate-400 hover:text-white transition">
+          Ocultar
+        </button>
+      </div>
+    </section>
+
+    <!-- TARJETAS PRINCIPALES DE RESUMEN (5 KPIs CLAVE) -->
+    <section class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <!-- 1. Ingresos del Mes -->
+      <div class="rounded-2xl bg-slateCard border border-slateBorder p-5 shadow-lg">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-xs font-medium text-slate-400">Ingresos del Mes</span>
+          <button type="button" onclick="openEditIncomeModal()" class="text-xs text-cyan-400 hover:text-cyan-300 font-medium underline underline-offset-2">Editar</button>
+        </div>
+        <div id="kpiTotalIncome" class="mt-2 text-2xl font-extrabold text-white tabular-nums">1.200,00 €</div>
+        <p id="kpiIncomeBreakdown" class="mt-1.5 text-[11px] text-slate-400 tabular-nums">Base: 1.200,00 € + Extras: 0,00 €</p>
+      </div>
+
+      <!-- 2. Gastado Total -->
+      <div class="rounded-2xl bg-slateCard border border-slateBorder p-5 shadow-lg">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-xs font-medium text-slate-400">Gastado Total</span>
+          <span id="kpiBudgetUsagePct" class="rounded-lg bg-amber-500/15 px-2 py-0.5 text-[11px] font-semibold text-amber-300 tabular-nums">0% pres.</span>
+        </div>
+        <div id="kpiTotalSpent" class="mt-2 text-2xl font-extrabold text-amber-400 tabular-nums">0,00 €</div>
+        <p id="kpiBudgetTotalText" class="mt-1.5 text-[11px] text-slate-400 tabular-nums">Presupuesto total: 600,00 €</p>
+      </div>
+
+      <!-- 3. Presupuesto Disponible Restante -->
+      <div class="rounded-2xl bg-slateCard border border-slateBorder p-5 shadow-lg">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-xs font-medium text-slate-400">Presupuesto Restante</span>
+          <span id="kpiBudgetStatusTag" class="rounded-lg bg-cyan-500/15 px-2 py-0.5 text-[11px] font-semibold text-cyan-300">Margen</span>
+        </div>
+        <div id="kpiBudgetRemaining" class="mt-2 text-2xl font-extrabold text-cyan-300 tabular-nums">600,00 €</div>
+        <p class="mt-1.5 text-[11px] text-slate-400">Saldo sin gastar de tus categorías</p>
+      </div>
+
+      <!-- 4. Ahorro del Mes (% sobre ingresos) -->
+      <div class="rounded-2xl bg-gradient-to-br from-slateCard to-emerald-950/35 border border-emerald-500/35 p-5 shadow-lg">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-xs font-medium text-emerald-300">Ahorro del Mes</span>
+          <span id="kpiSavingsRateBadge" class="rounded-lg bg-emerald-500/20 px-2 py-0.5 text-[11px] font-bold text-emerald-300 tabular-nums">100% ing.</span>
+        </div>
+        <div id="kpiNetSavings" class="mt-2 text-2xl font-extrabold text-emerald-400 tabular-nums">1.200,00 €</div>
+        <div class="mt-1.5 flex items-center justify-between text-[11px]">
+          <span id="kpiSavingsGoalText" class="text-slate-300 tabular-nums">Meta: 600,00 €</span>
+          <span id="kpiGoalStatusBadge" class="font-semibold text-emerald-400">✓ Cumplida</span>
+        </div>
+      </div>
+
+      <!-- 5. Proyección Ahorro Acumulado 2027 -->
+      <div class="rounded-2xl bg-slateCard border border-cyan-500/30 p-5 shadow-lg sm:col-span-2 lg:col-span-1">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-xs font-medium text-cyan-300">Proyección Fin 2027</span>
+          <span class="rounded-lg bg-cyan-500/15 px-2 py-0.5 text-[11px] font-semibold text-cyan-300">12 meses</span>
+        </div>
+        <div id="kpiProjected2027" class="mt-2 text-2xl font-extrabold text-cyan-400 tabular-nums">7.200,00 €</div>
+        <p id="kpiAccumulated2027Text" class="mt-1.5 text-[11px] text-slate-400 tabular-nums">Acumulado real 2027: 0,00 €</p>
+      </div>
+    </section>
+
+    <!-- SECCIÓN CENTRAL: PRESUPUESTOS POR CATEGORÍA + REGISTRO DETALLADO -->
+    <section class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- COLUMNA IZQUIERDA (7 cols): Presupuestos por Categoría -->
+      <div class="lg:col-span-7 rounded-2xl bg-slateCard border border-slateBorder p-5 sm:p-6 shadow-lg">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-white">Presupuestos del Mes por Categoría</h2>
+            <p class="text-xs text-slate-400">Controla tus límites mensuales: verde (&lt;80%), ámbar (80–100%) y rojo (&gt;100%).</p>
+          </div>
+          <button type="button" onclick="openAddCategoryModal()" class="inline-flex items-center justify-center gap-1.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 px-3.5 py-2 text-xs font-semibold text-cyan-300 transition shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Nueva Categoría
+          </button>
+        </div>
+
+        <div id="categoriesList" class="space-y-4"></div>
+      </div>
+
+      <!-- COLUMNA DERECHA (5 cols): Registro Rápido y Detallado de Movimiento -->
+      <div class="lg:col-span-5 rounded-2xl bg-slateCard border border-slateBorder p-5 sm:p-6 shadow-lg flex flex-col justify-between">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-white">Registrar Movimiento</h2>
+          <p class="text-xs text-slate-400 mb-5">Apunta un gasto o ingreso extra con método de pago y categoría.</p>
+
+          <form id="transactionForm" onsubmit="handleAddTransaction(event)" class="space-y-4">
+            <!-- Selector Tipo: Gasto vs Ingreso Extra -->
+            <div class="grid grid-cols-2 gap-2 p-1 rounded-xl bg-slateDark border border-slateBorder">
+              <button type="button" id="btnTypeExpense" onclick="setTransactionType('expense')" class="rounded-lg py-2 text-xs sm:text-sm font-semibold bg-amber-500 text-slate-950 shadow transition">
+                − Gasto
+              </button>
+              <button type="button" id="btnTypeIncome" onclick="setTransactionType('income')" class="rounded-lg py-2 text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition">
+                + Ingreso Extra
+              </button>
+            </div>
+            <input type="hidden" id="txType" value="expense" />
+
+            <!-- Concepto / Nota -->
+            <div>
+              <label for="txConcept" class="block text-xs font-medium text-slate-300 mb-1">Concepto / Nota</label>
+              <input type="text" id="txConcept" required placeholder="Ej: Compra semanal, Gasolinera, Cine, Venta extra..." class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none" />
+            </div>
+
+            <!-- Cantidad y Fecha -->
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="txAmount" class="block text-xs font-medium text-slate-300 mb-1">Cantidad (€)</label>
+                <input type="number" id="txAmount" step="0.01" min="0.01" required placeholder="0.00" class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm font-bold text-white tabular-nums placeholder-slate-500 focus:border-emerald-500 focus:outline-none" />
+              </div>
+              <div>
+                <label for="txDate" class="block text-xs font-medium text-slate-300 mb-1">Fecha</label>
+                <input type="date" id="txDate" required class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none" />
+              </div>
+            </div>
+
+            <!-- Categoría y Método de pago -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div id="txCategoryWrapper">
+                <label for="txCategory" class="block text-xs font-medium text-slate-300 mb-1">Categoría</label>
+                <select id="txCategory" class="w-full rounded-xl bg-slateDark border border-slateBorder px-3 py-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none"></select>
+              </div>
+              <div id="txPaymentWrapper">
+                <label for="txPaymentMethod" class="block text-xs font-medium text-slate-300 mb-1">Método de pago</label>
+                <select id="txPaymentMethod" class="w-full rounded-xl bg-slateDark border border-slateBorder px-3 py-2.5 text-sm text-white focus:border-emerald-500 focus:outline-none">
+                  <option value="Tarjeta">💳 Tarjeta</option>
+                  <option value="Efectivo">💵 Efectivo</option>
+                  <option value="Transferencia / Bizum">📲 Transferencia / Bizum</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" id="txSubmitBtn" class="w-full rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 text-sm shadow-lg shadow-amber-500/20 transition active:scale-[0.99]">
+              Registrar Gasto
+            </button>
+          </form>
+        </div>
+
+        <!-- Consejo inteligente dinámico -->
+        <div class="mt-6 rounded-xl bg-slateDark/90 border border-slateBorder p-3.5 flex items-start gap-3">
+          <div class="mt-0.5 text-emerald-400 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <p id="smartTipText" class="text-xs text-slate-300 leading-relaxed"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN DE GRÁFICOS VISUALES NATIVOS (SVG AUTOCONTENIDO SIN CDN) -->
+    <section class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Gráfico 1: Distribución del Mes (Donut SVG nativo) -->
+      <div class="lg:col-span-5 rounded-2xl bg-slateCard border border-slateBorder p-5 sm:p-6 shadow-lg flex flex-col justify-between">
+        <div>
+          <h3 class="text-base font-bold text-white">Distribución: Gastos vs. Ahorro</h3>
+          <p class="text-xs text-slate-400 mb-4">Reparto de ingresos en <span id="chartMonthLabel" class="text-slate-200 font-medium">Enero 2027</span></p>
+        </div>
+        <div id="nativeDonutChartContainer" class="flex flex-col sm:flex-row items-center justify-center gap-5 my-auto py-2"></div>
+      </div>
+
+      <!-- Gráfico 2: Evolución Ahorro Mensual y Proyección 2027 (Área + Línea + Barras SVG nativo) -->
+      <div class="lg:col-span-7 rounded-2xl bg-slateCard border border-slateBorder p-5 sm:p-6 shadow-lg flex flex-col justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+          <div>
+            <h3 class="text-base font-bold text-white">Evolución del Ahorro y Proyección 2027</h3>
+            <p class="text-xs text-slate-400">Ahorro mensual (barras) y curva de ahorro acumulado proyectado en 2027.</p>
+          </div>
+          <span id="annualGoalBadge" class="inline-flex items-center rounded-lg bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-1 text-xs font-semibold text-emerald-300 tabular-nums">
+            Meta anual: 7.200,00 €
+          </span>
+        </div>
+        <div id="nativeAnnualBarChartContainer" class="w-full overflow-x-auto"></div>
+      </div>
+    </section>
+
+    <!-- HISTORIAL DE MOVIMIENTOS DEL MES CON BÚSQUEDA Y FILTROS -->
+    <section class="mt-6 rounded-2xl bg-slateCard border border-slateBorder p-5 sm:p-6 shadow-lg">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+        <div>
+          <h3 class="text-base sm:text-lg font-bold text-white">Historial de Movimientos del Mes</h3>
+          <p class="text-xs text-slate-400">Busca por concepto o filtra por categoría y método de pago.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <input type="text" id="searchTxInput" oninput="renderTransactionsList()" placeholder="Buscar concepto..." class="rounded-xl bg-slateDark border border-slateBorder px-3 py-2 text-xs sm:text-sm text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none" />
+          <select id="filterCategorySelect" onchange="renderTransactionsList()" class="rounded-xl bg-slateDark border border-slateBorder px-3 py-2 text-xs sm:text-sm text-white focus:border-emerald-500 focus:outline-none">
+            <option value="all">Todas las categorías</option>
+          </select>
+          <select id="filterPaymentSelect" onchange="renderTransactionsList()" class="rounded-xl bg-slateDark border border-slateBorder px-3 py-2 text-xs sm:text-sm text-white focus:border-emerald-500 focus:outline-none">
+            <option value="all">Todos los pagos</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Efectivo">Efectivo</option>
+            <option value="Transferencia / Bizum">Transferencia / Bizum</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="transactionsListContainer" class="divide-y divide-slateBorder"></div>
+    </section>
+
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- FOOTER DISCRETO Y ELEGANTE                                            -->
+  <!-- ===================================================================== -->
+  <footer class="w-full border-t border-slateBorder/70 bg-slateDark/50 py-5 px-4 text-center">
+    <p class="text-xs text-slate-400">
+      <strong class="text-slate-200 font-semibold">Paso a Paso 2027 · Impulso Real by Tommy</strong> — <span class="text-emerald-400 font-medium">Cada euro cuenta · Prosperidad desde lo cotidiano</span>. Tus datos permanecen en tu dispositivo.
+    </p>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL: EDITAR SUELDO BASE Y OBJETIVO DE AHORRO                        -->
+  <!-- ===================================================================== -->
+  <div id="editIncomeModal" class="fixed inset-0 z-40 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+    <div class="w-full max-w-md rounded-2xl bg-slateCard border border-slateBorder p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-slateBorder">
+        <h3 class="text-lg font-bold text-white">Sueldo y Meta de Ahorro</h3>
+        <button type="button" onclick="closeModal('editIncomeModal')" class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+      </div>
+      <form onsubmit="saveIncomeAndGoal(event)" class="mt-4 space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Sueldo / Ingreso Mensual (€)</label>
+          <input type="number" id="inputBaseSalary" step="0.01" min="0" required class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm font-bold text-white tabular-nums focus:border-emerald-500 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Objetivo de Ahorro Mensual (€)</label>
+          <input type="number" id="inputSavingsGoal" step="0.01" min="0" required class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm font-bold text-emerald-400 tabular-nums focus:border-emerald-500 focus:outline-none" />
+        </div>
+
+        <label class="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer">
+          <input type="checkbox" id="applySalaryAllMonths" checked class="h-4 w-4 rounded border-slateBorder bg-slateDark text-emerald-500 focus:ring-0" />
+          Aplicar este sueldo y meta a este mes y los meses futuros de 2027
+        </label>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('editIncomeModal')" class="rounded-xl bg-slateDark border border-slateBorder px-4 py-2 text-xs font-medium text-slate-300 hover:text-white">Cancelar</button>
+          <button type="submit" class="rounded-xl bg-emerald-500 hover:bg-emerald-400 px-4 py-2 text-xs font-bold text-slate-950">Guardar Cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL: AÑADIR / EDITAR CATEGORÍA                                      -->
+  <!-- ===================================================================== -->
+  <div id="categoryModal" class="fixed inset-0 z-40 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+    <div class="w-full max-w-md rounded-2xl bg-slateCard border border-slateBorder p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-slateBorder">
+        <h3 id="categoryModalTitle" class="text-lg font-bold text-white">Nueva Categoría de Gasto</h3>
+        <button type="button" onclick="closeModal('categoryModal')" class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+      </div>
+      <form onsubmit="saveCategoryForm(event)" class="mt-4 space-y-4">
+        <input type="hidden" id="editCategoryId" value="" />
+        <div class="grid grid-cols-4 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Icono</label>
+            <select id="catIconInput" class="w-full rounded-xl bg-slateDark border border-slateBorder px-2.5 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none">
+              <option value="🛒">🛒</option>
+              <option value="⛽">⛽</option>
+              <option value="🏠">🏠</option>
+              <option value="🎉">🎉</option>
+              <option value="🏋️">🏋️</option>
+              <option value="📱">📱</option>
+              <option value="✈️">✈️</option>
+              <option value="🩺">🩺</option>
+              <option value="👕">👕</option>
+              <option value="📦">📦</option>
+            </select>
+          </div>
+          <div class="col-span-3">
+            <label class="block text-xs font-medium text-slate-300 mb-1">Nombre de la Categoría</label>
+            <input type="text" id="catNameInput" required placeholder="Ej: Gimnasio, Suscripciones, Ropa..." class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Límite Mensual (€)</label>
+            <input type="number" id="catBudgetInput" step="0.01" min="0" required placeholder="50.00" class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm font-bold text-white tabular-nums focus:border-cyan-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">Color Distintivo</label>
+            <select id="catColorInput" class="w-full rounded-xl bg-slateDark border border-slateBorder px-3.5 py-2.5 text-sm text-white focus:border-cyan-500 focus:outline-none">
+              <option value="emerald">Verde Esmeralda</option>
+              <option value="cyan">Cian / Azul</option>
+              <option value="amber">Ámbar / Naranja</option>
+              <option value="violet">Violeta</option>
+              <option value="rose">Rosa / Coral</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer">
+          <input type="checkbox" id="applyCatAllMonths" checked class="h-4 w-4 rounded border-slateBorder bg-slateDark text-cyan-500 focus:ring-0" />
+          Aplicar en este mes y en todos los meses futuros
+        </label>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('categoryModal')" class="rounded-xl bg-slateDark border border-slateBorder px-4 py-2 text-xs font-medium text-slate-300 hover:text-white">Cancelar</button>
+          <button type="submit" class="rounded-xl bg-cyan-500 hover:bg-cyan-400 px-4 py-2 text-xs font-bold text-slate-950">Guardar Categoría</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL: AJUSTES DE PERFIL, PRIVACIDAD Y PIN                            -->
+  <!-- ===================================================================== -->
+  <div id="settingsModal" class="fixed inset-0 z-40 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+    <div class="w-full max-w-md rounded-2xl bg-slateCard border border-slateBorder p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slateBorder">
+        <h3 class="text-lg font-bold text-white">Ajustes y Privacidad</h3>
+        <button type="button" onclick="closeModal('settingsModal')" class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+      </div>
+
+      <div class="mt-4 space-y-4">
+        <!-- Alias de usuario -->
+        <form onsubmit="saveUserProfileName(event)" class="rounded-xl bg-slateDark border border-slateBorder p-3.5 space-y-2">
+          <label for="settingsUserNameInput" class="block text-xs font-semibold text-slate-300">Tu nombre o alias en el panel</label>
+          <div class="flex gap-2">
+            <input type="text" id="settingsUserNameInput" placeholder="Ej: Tommy" class="w-full rounded-xl bg-slateCard border border-slateBorder px-3 py-2 text-xs sm:text-sm text-white focus:border-emerald-500 focus:outline-none" />
+            <button type="submit" class="rounded-xl bg-slateCard hover:bg-slate-800 border border-slateBorder px-3.5 py-2 text-xs font-semibold text-emerald-400 shrink-0">Guardar</button>
+          </div>
+        </form>
+
+        <!-- Activar / Desactivar bloqueo por PIN -->
+        <div class="flex items-center justify-between rounded-xl bg-slateDark border border-slateBorder p-3.5">
+          <div>
+            <p class="text-sm font-semibold text-white">Bloqueo con PIN al iniciar</p>
+            <p id="pinStatusHelperText" class="text-xs text-slate-400">Protege tus datos al abrir la web.</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="togglePinLockCheckbox" onchange="togglePinEnabled(this.checked)" class="sr-only peer" />
+            <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+          </label>
+        </div>
+
+        <!-- Configurar / Cambiar PIN -->
+        <form onsubmit="changePinCode(event)" class="space-y-3 rounded-xl bg-slateDark border border-slateBorder p-4">
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-semibold uppercase tracking-wider text-slate-300">PIN Personal (4 dígitos)</p>
+            <span id="currentPinBadge" class="text-[11px] font-mono text-emerald-400"></span>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Nuevo PIN</label>
+              <input type="password" id="newPinInput" maxlength="4" pattern="\d{4}" inputmode="numeric" required placeholder="••••" class="w-full rounded-xl bg-slateCard border border-slateBorder px-3 py-2 text-center font-mono text-base tracking-widest text-white focus:border-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1">Confirmar PIN</label>
+              <input type="password" id="confirmPinInput" maxlength="4" pattern="\d{4}" inputmode="numeric" required placeholder="••••" class="w-full rounded-xl bg-slateCard border border-slateBorder px-3 py-2 text-center font-mono text-base tracking-widest text-white focus:border-emerald-500 focus:outline-none" />
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button type="submit" class="flex-1 rounded-xl bg-emerald-500 hover:bg-emerald-400 py-2 text-xs font-bold text-slate-950 transition">
+              Guardar PIN
+            </button>
+            <button type="button" onclick="closeModal('settingsModal'); lockAppNow();" class="rounded-xl bg-slateCard hover:bg-slate-800 border border-slateBorder px-3 py-2 text-xs font-semibold text-slate-200 transition">
+              Bloquear ahora
+            </button>
+          </div>
+        </form>
+
+        <!-- Zona de reinicio -->
+        <div class="pt-2 border-t border-slateBorder flex items-center justify-between">
+          <span class="text-xs text-slate-400">¿Volver al asistente inicial?</span>
+          <button type="button" onclick="resetAllDataConfirm()" class="text-xs font-semibold text-rose-400 hover:text-rose-300 underline">Restablecer de fábrica</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- LÓGICA DE APLICACIÓN EN JAVASCRIPT PURO AUTOCONTENIDO                 -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. CONSTANTES DE STORAGE, HÁBITOS Y MESES (DIC 2026 - DIC 2027)
+    // =========================================================================
+    const STORAGE_KEY = 'paso_a_paso_2027_impulso_real_state_v1';
+    const PIN_STORAGE_KEY = 'paso_a_paso_2027_impulso_real_pin';
+
+    const DAILY_HABIT_TIPS = [
+      'No hace falta ganar una fortuna para avanzar: apartar aunque sean 15 € o 25 € al inicio del mes crea un colchón real sin culpa.',
+      'Revisa comida, transporte y ocio antes de comprar por impulso: un pequeño ajuste diario sostiene todo el mes.',
+      'Si un mes se ajusta más de lo previsto, no lo abandones: vuelve a tu plan al mes siguiente paso a paso.',
+      'Los ingresos extra (ventas, propinas, pagas o encargos) son un empujón directo para tu tranquilidad en 2027.',
+      'Tener un fondo aunque sea modesto cambia la forma de vivir el día a día: te da margen para decidir con calma.'
+    ];
+    let currentHabitTipIndex = 0;
+
+    const MONTHS_CONFIG = [
+      { key: '2026-12', label: 'Dic 2026', fullLabel: 'Diciembre 2026', year: 2026, month: 12 },
+      { key: '2027-01', label: 'Ene 2027', fullLabel: 'Enero 2027', year: 2027, month: 1 },
+      { key: '2027-02', label: 'Feb 2027', fullLabel: 'Febrero 2027', year: 2027, month: 2 },
+      { key: '2027-03', label: 'Mar 2027', fullLabel: 'Marzo 2027', year: 2027, month: 3 },
+      { key: '2027-04', label: 'Abr 2027', fullLabel: 'Abril 2027', year: 2027, month: 4 },
+      { key: '2027-05', label: 'May 2027', fullLabel: 'Mayo 2027', year: 2027, month: 5 },
+      { key: '2027-06', label: 'Jun 2027', fullLabel: 'Junio 2027', year: 2027, month: 6 },
+      { key: '2027-07', label: 'Jul 2027', fullLabel: 'Julio 2027', year: 2027, month: 7 },
+      { key: '2027-08', label: 'Ago 2027', fullLabel: 'Agosto 2027', year: 2027, month: 8 },
+      { key: '2027-09', label: 'Sep 2027', fullLabel: 'Septiembre 2027', year: 2027, month: 9 },
+      { key: '2027-10', label: 'Oct 2027', fullLabel: 'Octubre 2027', year: 2027, month: 10 },
+      { key: '2027-11', label: 'Nov 2027', fullLabel: 'Noviembre 2027', year: 2027, month: 11 },
+      { key: '2027-12', label: 'Dic 2027', fullLabel: 'Diciembre 2027', year: 2027, month: 12 },
+    ];
+
+    const COLOR_PALETTE = {
+      emerald: { bg: 'bg-emerald-500', text: 'text-emerald-400', badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', hex: '#10b981' },
+      cyan:    { bg: 'bg-cyan-500',    text: 'text-cyan-400',    badge: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',          hex: '#06b6d4' },
+      amber:   { bg: 'bg-amber-500',   text: 'text-amber-400',   badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',       hex: '#f59e0b' },
+      violet:  { bg: 'bg-violet-500',  text: 'text-violet-400',  badge: 'bg-violet-500/15 text-violet-300 border-violet-500/30',    hex: '#8b5cf6' },
+      rose:    { bg: 'bg-rose-500',    text: 'text-rose-400',    badge: 'bg-rose-500/15 text-rose-300 border-rose-500/30',          hex: '#f43f5e' },
+    };
+
+    // Estado global
+    let appState = null;
+    let enteredPin = '';
+    let onboardingPinEnabled = true;
+    let pendingResetConfirmation = false;
+    let pendingLockReset = false;
+
+    // =========================================================================
+    // 2. GESTIÓN DE ESTADO, ONBOARDING Y PERSISTENCIA
+    // =========================================================================
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          appState = null;
+          return;
+        }
+        appState = JSON.parse(raw);
+        const savedPin = localStorage.getItem(PIN_STORAGE_KEY);
+        if (savedPin && /^\d{4}$/.test(savedPin)) {
+          appState.security.pinCode = savedPin;
+        }
+        MONTHS_CONFIG.forEach(m => {
+          if (!appState.months[m.key]) {
+            appState.months[m.key] = JSON.parse(JSON.stringify(appState.months['2027-01']));
+            appState.months[m.key].transactions = [];
+          }
+        });
+      } catch (err) {
+        console.error('Error cargando estado:', err);
+        appState = null;
+      }
+    }
+
+    function saveState() {
+      if (!appState) return;
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        if (appState.security && appState.security.pinCode) {
+          localStorage.setItem(PIN_STORAGE_KEY, appState.security.pinCode);
+        } else {
+          localStorage.removeItem(PIN_STORAGE_KEY);
+        }
+      } catch (err) {
+        showToast('Error al guardar en el navegador.', 'error');
+      }
+    }
+
+    // --- Asistente de Onboarding en 2 pasos ---
+    function showOnboarding() {
+      document.getElementById('lockScreen').classList.add('hidden');
+      document.getElementById('onboardingScreen').classList.remove('hidden');
+      document.getElementById('onboardingStep1Form').classList.remove('hidden');
+      document.getElementById('onboardingStep2Form').classList.add('hidden');
+      document.getElementById('onboardingStepIndicator').textContent = 'Paso 1 de 2';
+    }
+
+    function setOnboardingNoRent() {
+      document.getElementById('obRentAmount').value = '0';
+      showToast('Vivienda configurada a 0 €.', 'info');
+    }
+
+    function goToOnboardingStep2(e) {
+      e.preventDefault();
+      document.getElementById('onboardingStep1Form').classList.add('hidden');
+      document.getElementById('onboardingStep2Form').classList.remove('hidden');
+      document.getElementById('onboardingStepIndicator').textContent = 'Paso 2 de 2';
+      setOnboardingSecurityMode(true);
+    }
+
+    function backToOnboardingStep1() {
+      document.getElementById('onboardingStep2Form').classList.add('hidden');
+      document.getElementById('onboardingStep1Form').classList.remove('hidden');
+      document.getElementById('onboardingStepIndicator').textContent = 'Paso 1 de 2';
+    }
+
+    function setOnboardingSecurityMode(usePin) {
+      onboardingPinEnabled = usePin;
+      const btnPin = document.getElementById('obModePinBtn');
+      const btnNoPin = document.getElementById('obModeNoPinBtn');
+      const pinBox = document.getElementById('obPinFieldsBox');
+      const noPinBox = document.getElementById('obNoPinNoticeBox');
+
+      if (usePin) {
+        btnPin.className = 'rounded-lg py-2.5 text-xs font-bold bg-emerald-500 text-slate-950 shadow transition';
+        btnNoPin.className = 'rounded-lg py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition';
+        pinBox.classList.remove('hidden');
+        noPinBox.classList.add('hidden');
+      } else {
+        btnNoPin.className = 'rounded-lg py-2.5 text-xs font-bold bg-cyan-500 text-slate-950 shadow transition';
+        btnPin.className = 'rounded-lg py-2.5 text-xs font-semibold text-slate-400 hover:text-white transition';
+        pinBox.classList.add('hidden');
+        noPinBox.classList.remove('hidden');
+      }
+    }
+
+    function completeOnboarding(e) {
+      e.preventDefault();
+      let chosenPin = '';
+
+      if (onboardingPinEnabled) {
+        const p1 = document.getElementById('obPin1').value.trim();
+        const p2 = document.getElementById('obPin2').value.trim();
+        if (!/^\d{4}$/.test(p1)) {
+          showToast('Introduce un PIN personal de exactamente 4 números.', 'error');
+          return;
+        }
+        if (p1 !== p2) {
+          showToast('Los códigos PIN no coinciden.', 'error');
+          return;
+        }
+        chosenPin = p1;
+      }
+
+      const userName = document.getElementById('obUserName').value.trim();
+      const baseSalary = Math.max(0, parseFloat(document.getElementById('obBaseSalary').value) || 0);
+      const rentAmount = Math.max(0, parseFloat(document.getElementById('obRentAmount').value) || 0);
+      const bFood = Math.max(0, parseFloat(document.getElementById('obBudgetFood').value) || 0);
+      const bFuel = Math.max(0, parseFloat(document.getElementById('obBudgetFuel').value) || 0);
+      const bLeisure = Math.max(0, parseFloat(document.getElementById('obBudgetLeisure').value) || 0);
+      const bOther = Math.max(0, parseFloat(document.getElementById('obBudgetOther').value) || 0);
+
+      const initialCategories = [];
+      if (rentAmount > 0) {
+        initialCategories.push({ id: 'cat_alquiler', icon: '🏠', name: 'Alquiler / Hipoteca', budget: rentAmount, color: 'rose' });
+      }
+      initialCategories.push(
+        { id: 'cat_comida', icon: '🛒', name: 'Comida', budget: bFood, color: 'emerald' },
+        { id: 'cat_transporte', icon: '⛽', name: 'Gasolina / Transporte', budget: bFuel, color: 'cyan' },
+        { id: 'cat_ocio', icon: '🎉', name: 'Ocio', budget: bLeisure, color: 'amber' },
+        { id: 'cat_otros', icon: '📦', name: 'Otros / Imprevistos', budget: bOther, color: 'violet' }
+      );
+
+      const totalInitialBudgets = initialCategories.reduce((sum, c) => sum + c.budget, 0);
+      const defaultSavingsGoal = Math.max(0, Math.round((baseSalary - totalInitialBudgets) * 100) / 100);
+
+      const months = {};
+      MONTHS_CONFIG.forEach(m => {
+        months[m.key] = {
+          baseSalary,
+          savingsGoal: defaultSavingsGoal,
+          categories: JSON.parse(JSON.stringify(initialCategories)),
+          transactions: []
+        };
+      });
+
+      appState = {
+        profile: { userName },
+        security: {
+          pinEnabled: onboardingPinEnabled,
+          pinCode: chosenPin
+        },
+        activeMonthKey: '2027-01',
+        months
+      };
+
+      saveState();
+      document.getElementById('onboardingScreen').classList.add('hidden');
+      renderAll();
+      showToast('¡Bienvenido a Paso a Paso 2027 · Impulso Real by Tommy! Cada euro cuenta.', 'success');
+    }
+
+    function cycleDailyHabitTip() {
+      currentHabitTipIndex = (currentHabitTipIndex + 1) % DAILY_HABIT_TIPS.length;
+      const el = document.getElementById('dailyHabitBannerText');
+      if (el) {
+        el.textContent = DAILY_HABIT_TIPS[currentHabitTipIndex];
+      }
+    }
+
+    function backspacePin() {
+      enteredPin = enteredPin.slice(0, -1);
+      updatePinDots();
+    }
+
+    function clearPinInput() {
+      enteredPin = '';
+      updatePinDots();
+    }
+
+    function updatePinDots() {
+      const dots = document.querySelectorAll('#pinDots span');
+      dots.forEach((dot, idx) => {
+        if (idx < enteredPin.length) {
+          dot.classList.remove('bg-slate-800', 'border-slate-600');
+          dot.classList.add('bg-emerald-400', 'border-emerald-300', 'scale-110');
+        } else {
+          dot.classList.add('bg-slate-800', 'border-slate-600');
+          dot.classList.remove('bg-emerald-400', 'border-emerald-300', 'scale-110');
+        }
+      });
+    }
+
+    function lockAppNow() {
+      if (!appState.security.pinEnabled || !appState.security.pinCode) {
+        showToast('Aún no tienes un PIN activo. Configúralo en Ajustes y Privacidad.', 'info');
+        openSettingsModal();
+        return;
+      }
+      initSecurityScreen();
+    }
+
+    function handleLockScreenReset() {
+      const btn = document.getElementById('lockResetBtn');
+      if (!pendingLockReset) {
+        pendingLockReset = true;
+        btn.textContent = '⚠️ Pulsa otra vez para borrar datos locales y crear nuevo perfil';
+        btn.classList.add('text-rose-400', 'font-semibold');
+        return;
+      }
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(PIN_STORAGE_KEY);
+      appState = null;
+      pendingLockReset = false;
+      btn.textContent = '¿Olvidaste tu PIN? Restablecer perfil desde cero';
+      btn.classList.remove('text-rose-400', 'font-semibold');
+      showOnboarding();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      const lockScreen = document.getElementById('lockScreen');
+      if (!lockScreen.classList.contains('hidden')) {
+        if (e.key >= '0' && e.key <= '9') {
+          enterPinDigit(e.key);
+        } else if (e.key === 'Backspace') {
+          backspacePin();
+        } else if (e.key === 'Escape') {
+          clearPinInput();
+        }
+      }
+    });
+
+    // =========================================================================
+    // 4. CÁLCULOS FINANCIEROS Y PROYECCIÓN 2027
+    // =========================================================================
+    function formatEuro(amount) {
+      return new Intl.NumberFormat('es-ES', {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(amount || 0);
+    }
+
+    function getActiveMonthObj() {
+      return appState.months[appState.activeMonthKey];
+    }
+
+    function calculateMonthMetrics(monthKey) {
+      const mData = appState.months[monthKey];
+      const extraIncome = mData.transactions
+        .filter(t => t.type === 'income')
+        .reduce((acc, t) => acc + Number(t.amount), 0);
+
+      const totalIncome = Number(mData.baseSalary) + extraIncome;
+
+      const totalSpent = mData.transactions
+        .filter(t => t.type === 'expense')
+        .reduce((acc, t) => acc + Number(t.amount), 0);
+
+      const totalBudget = mData.categories.reduce((acc, c) => acc + Number(c.budget), 0);
+      const budgetRemaining = totalBudget - totalSpent;
+      const netSavings = totalIncome - totalSpent;
+      const savingsRatePct = totalIncome > 0 ? Math.round((netSavings / totalIncome) * 100) : 0;
+
+      const spentByCategory = {};
+      mData.categories.forEach(c => { spentByCategory[c.id] = 0; });
+      mData.transactions
+        .filter(t => t.type === 'expense')
+        .forEach(t => {
+          if (spentByCategory[t.categoryId] !== undefined) {
+            spentByCategory[t.categoryId] += Number(t.amount);
+          }
+        });
+
+      return {
+        baseSalary: Number(mData.baseSalary),
+        extraIncome,
+        totalIncome,
+        totalSpent,
+        totalBudget,
+        budgetRemaining,
+        netSavings,
+        savingsRatePct,
+        savingsGoal: Number(mData.savingsGoal),
+        spentByCategory
+      };
+    }
+
+    function calculate2027Projection() {
+      const months2027 = MONTHS_CONFIG.filter(m => m.year === 2027);
+      let accumulatedReal = 0;
+      let totalGoal2027 = 0;
+      let activeMonthsWithTx = 0;
+      let sumSavingsActiveMonths = 0;
+
+      months2027.forEach(m => {
+        const metrics = calculateMonthMetrics(m.key);
+        const hasActivity = appState.months[m.key].transactions.length > 0;
+        accumulatedReal += metrics.netSavings;
+        totalGoal2027 += metrics.savingsGoal;
+        if (hasActivity) {
+          activeMonthsWithTx++;
+          sumSavingsActiveMonths += metrics.netSavings;
+        }
+      });
+
+      const currentMonthMetrics = calculateMonthMetrics(appState.activeMonthKey);
+      let projectedEnd2027 = 0;
+      if (activeMonthsWithTx > 0) {
+        const avgMonthlySavings = sumSavingsActiveMonths / activeMonthsWithTx;
+        projectedEnd2027 = avgMonthlySavings * 12;
+      } else {
+        projectedEnd2027 = Math.max(currentMonthMetrics.savingsGoal, currentMonthMetrics.totalIncome - currentMonthMetrics.totalBudget) * 12;
+      }
+
+      return {
+        accumulatedReal,
+        totalGoal2027,
+        projectedEnd2027
+      };
+    }
+
+    // =========================================================================
+    // 5. RENDERIZADO DE LA INTERFAZ
+    // =========================================================================
+    function renderAll() {
+      if (!appState) return;
+      renderHeaderGreeting();
+      renderMonthSelector();
+      renderKPIs();
+      renderCategories();
+      renderCategorySelectOptions();
+      renderTransactionsList();
+      updateDefaultDateInput();
+      renderNativeCharts();
+    }
+
+    function renderHeaderGreeting() {
+      const greetingEl = document.getElementById('headerGreetingText');
+      const userName = appState.profile && appState.profile.userName ? appState.profile.userName : '';
+      if (userName) {
+        greetingEl.textContent = `Hola, ${userName} · Cada euro cuenta · Prosperidad desde lo cotidiano en 2027.`;
+      } else {
+        greetingEl.textContent = 'Cada euro cuenta · Prosperidad desde lo cotidiano. Avanza mes a mes con calma y claridad.';
+      }
+    }
+
+    function renderMonthSelector() {
+      const container = document.getElementById('monthSelectorBar');
+      const activeCfg = MONTHS_CONFIG.find(m => m.key === appState.activeMonthKey);
+      document.getElementById('activeMonthBadge').textContent = activeCfg.fullLabel;
+      document.getElementById('chartMonthLabel').textContent = activeCfg.fullLabel;
+
+      container.innerHTML = MONTHS_CONFIG.map(m => {
+        const isActive = m.key === appState.activeMonthKey;
+        const hasTx = appState.months[m.key].transactions.length > 0;
+        return `
+          <button
+            type="button"
+            onclick="selectMonth('${m.key}')"
+            class="relative shrink-0 rounded-xl px-3.5 py-2 text-xs font-semibold transition border ${
+              isActive
+                ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-md shadow-emerald-500/20'
+                : 'bg-slateCard text-slate-300 border-slateBorder hover:bg-slate-800 hover:text-white'
+            }"
+          >
+            ${m.label}
+            ${hasTx ? `<span class="ml-1.5 inline-block h-1.5 w-1.5 rounded-full ${isActive ? 'bg-slate-950' : 'bg-emerald-400'}"></span>` : ''}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function selectMonth(key) {
+      appState.activeMonthKey = key;
+      saveState();
+      renderAll();
+    }
+
+    function navigateMonth(delta) {
+      const idx = MONTHS_CONFIG.findIndex(m => m.key === appState.activeMonthKey);
+      const nextIdx = idx + delta;
+      if (nextIdx >= 0 && nextIdx < MONTHS_CONFIG.length) {
+        selectMonth(MONTHS_CONFIG[nextIdx].key);
+      }
+    }
+
+    function renderKPIs() {
+      const metrics = calculateMonthMetrics(appState.activeMonthKey);
+      const proj = calculate2027Projection();
+
+      document.getElementById('kpiTotalIncome').textContent = formatEuro(metrics.totalIncome);
+      document.getElementById('kpiIncomeBreakdown').textContent =
+        `Base: ${formatEuro(metrics.baseSalary)} + Extras: ${formatEuro(metrics.extraIncome)}`;
+
+      document.getElementById('kpiTotalSpent').textContent = formatEuro(metrics.totalSpent);
+      document.getElementById('kpiBudgetTotalText').textContent =
+        `Presupuesto total: ${formatEuro(metrics.totalBudget)}`;
+
+      const budgetPct = metrics.totalBudget > 0 ? Math.round((metrics.totalSpent / metrics.totalBudget) * 100) : 0;
+      const pctBadge = document.getElementById('kpiBudgetUsagePct');
+      pctBadge.textContent = `${budgetPct}% pres.`;
+      pctBadge.className = `rounded-lg px-2 py-0.5 text-[11px] font-semibold tabular-nums ${
+        budgetPct > 100
+          ? 'bg-rose-500/20 text-rose-300'
+          : budgetPct >= 80
+          ? 'bg-amber-500/20 text-amber-300'
+          : 'bg-emerald-500/15 text-emerald-300'
+      }`;
+
+      const remEl = document.getElementById('kpiBudgetRemaining');
+      remEl.textContent = formatEuro(metrics.budgetRemaining);
+      remEl.className = `mt-2 text-2xl font-extrabold tabular-nums ${
+        metrics.budgetRemaining < 0 ? 'text-rose-400' : 'text-cyan-300'
+      }`;
+
+      const netSavingsEl = document.getElementById('kpiNetSavings');
+      netSavingsEl.textContent = formatEuro(metrics.netSavings);
+      netSavingsEl.className = `mt-2 text-2xl font-extrabold tabular-nums ${
+        metrics.netSavings >= metrics.savingsGoal
+          ? 'text-emerald-400'
+          : metrics.netSavings >= 0
+          ? 'text-amber-400'
+          : 'text-rose-400'
+      }`;
+
+      document.getElementById('kpiSavingsRateBadge').textContent = `${metrics.savingsRatePct}% ing.`;
+      document.getElementById('kpiSavingsGoalText').textContent = `Meta: ${formatEuro(metrics.savingsGoal)}`;
+
+      const goalBadge = document.getElementById('kpiGoalStatusBadge');
+      if (metrics.netSavings >= metrics.savingsGoal) {
+        goalBadge.textContent = '✓ Cumplida';
+        goalBadge.className = 'font-semibold text-emerald-400';
+      } else {
+        const diff = metrics.savingsGoal - metrics.netSavings;
+        goalBadge.textContent = `−${formatEuro(diff)}`;
+        goalBadge.className = 'font-semibold text-amber-400 tabular-nums';
+      }
+
+      document.getElementById('kpiProjected2027').textContent = formatEuro(proj.projectedEnd2027);
+      document.getElementById('kpiAccumulated2027Text').textContent =
+        `Acumulado 12 meses: ${formatEuro(proj.accumulatedReal)}`;
+      document.getElementById('annualGoalBadge').textContent =
+        `Meta anual: ${formatEuro(proj.totalGoal2027)}`;
+
+      // Consejo dinámico
+      const maxSpendable = Math.max(0, metrics.totalIncome - metrics.savingsGoal);
+      const remainingSafeSpend = maxSpendable - metrics.totalSpent;
+      const tipEl = document.getElementById('smartTipText');
+      if (remainingSafeSpend >= 0) {
+        tipEl.innerHTML = `Puedes gastar hasta <strong class="text-emerald-400 tabular-nums">${formatEuro(remainingSafeSpend)}</strong> más este mes sin comprometer tu meta de ahorro de <strong class="tabular-nums">${formatEuro(metrics.savingsGoal)}</strong>.`;
+      } else {
+        tipEl.innerHTML = `Has superado en <strong class="text-rose-400 tabular-nums">${formatEuro(Math.abs(remainingSafeSpend))}</strong> el gasto máximo recomendado para alcanzar tu objetivo de ahorro este mes.`;
+      }
+    }
+
+    function renderCategories() {
+      const mData = getActiveMonthObj();
+      const metrics = calculateMonthMetrics(appState.activeMonthKey);
+      const container = document.getElementById('categoriesList');
+
+      if (mData.categories.length === 0) {
+        container.innerHTML = `<p class="text-sm text-slate-400 py-4 text-center">No hay categorías configuradas. Añade una para empezar.</p>`;
+        return;
+      }
+
+      container.innerHTML = mData.categories.map(cat => {
+        const spent = metrics.spentByCategory[cat.id] || 0;
+        const budget = Number(cat.budget);
+        const remaining = budget - spent;
+        const rawPct = budget > 0 ? Math.round((spent / budget) * 100) : (spent > 0 ? 100 : 0);
+        const barWidth = Math.min(100, rawPct);
+
+        // Código de color: verde (<80%), ámbar (80-100%), rojo (>100%)
+        let barColorClass = 'bg-emerald-500';
+        let statusBadgeClass = 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+        if (rawPct > 100) {
+          barColorClass = 'bg-rose-500';
+          statusBadgeClass = 'bg-rose-500/20 text-rose-300 border-rose-500/35';
+        } else if (rawPct >= 80) {
+          barColorClass = 'bg-amber-500';
+          statusBadgeClass = 'bg-amber-500/20 text-amber-300 border-amber-500/35';
+        }
+
+        return `
+          <div class="rounded-xl bg-slateDark border border-slateBorder p-4 transition hover:border-slate-700">
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <div class="flex items-center gap-2">
+                <span class="text-base">${cat.icon || '📌'}</span>
+                <span class="font-semibold text-sm text-white">${escapeHtml(cat.name)}</span>
+                <span class="rounded-md border px-2 py-0.5 text-[11px] font-semibold tabular-nums ${statusBadgeClass}">
+                  ${rawPct}%
+                </span>
+              </div>
+              <div class="flex items-center gap-2.5">
+                <button type="button" onclick="openEditCategoryModal('${cat.id}')" class="text-xs text-slate-400 hover:text-cyan-400 transition">
+                  Editar
+                </button>
+                ${mData.categories.length > 1 ? `
+                  <button type="button" onclick="deleteCategory('${cat.id}')" class="text-sm text-slate-500 hover:text-rose-400 transition leading-none" title="Eliminar categoría">
+                    &times;
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+
+            <div class="h-2.5 w-full rounded-full bg-slate-800 overflow-hidden">
+              <div class="h-full rounded-full transition-all duration-300 ${barColorClass}" style="width: ${barWidth}%"></div>
+            </div>
+
+            <div class="mt-2 flex items-center justify-between text-xs tabular-nums">
+              <span class="text-slate-300">
+                Gastado: <strong class="text-white">${formatEuro(spent)}</strong> / ${formatEuro(budget)}
+              </span>
+              <span class="${rawPct > 100 ? 'text-rose-400 font-semibold' : 'text-slate-400'}">
+                ${rawPct > 100 ? `Excedido: ${formatEuro(Math.abs(remaining))}` : `Disponible: ${formatEuro(remaining)}`}
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderCategorySelectOptions() {
+      const mData = getActiveMonthObj();
+      const metrics = calculateMonthMetrics(appState.activeMonthKey);
+      const txSelect = document.getElementById('txCategory');
+      const filterSelect = document.getElementById('filterCategorySelect');
+      const currentFilter = filterSelect.value;
+
+      txSelect.innerHTML = mData.categories.map(c => {
+        const disp = Math.max(0, c.budget - (metrics.spentByCategory[c.id] || 0));
+        return `<option value="${c.id}">${c.icon || ''} ${escapeHtml(c.name)} (${formatEuro(disp)})</option>`;
+      }).join('');
+
+      filterSelect.innerHTML = `
+        <option value="all">Todas las categorías</option>
+        <option value="income">Solo ingresos extra</option>
+        ${mData.categories.map(c => `<option value="${c.id}">${c.icon || ''} ${escapeHtml(c.name)}</option>`).join('')}
+      `;
+      if ([...filterSelect.options].some(o => o.value === currentFilter)) {
+        filterSelect.value = currentFilter;
+      }
+    }
+
+    function updateDefaultDateInput() {
+      const dateInput = document.getElementById('txDate');
+      const [year, month] = appState.activeMonthKey.split('-');
+      const today = new Date();
+      const day = String(Math.min(28, today.getDate())).padStart(2, '0');
+      dateInput.value = `${year}-${month}-${day}`;
+    }
+
+    // =========================================================================
+    // 6. REGISTRO Y HISTORIAL DE MOVIMIENTOS
+    // =========================================================================
+    function setTransactionType(type) {
+      document.getElementById('txType').value = type;
+      const btnExp = document.getElementById('btnTypeExpense');
+      const btnInc = document.getElementById('btnTypeIncome');
+      const catWrap = document.getElementById('txCategoryWrapper');
+      const submitBtn = document.getElementById('txSubmitBtn');
+
+      if (type === 'expense') {
+        btnExp.className = 'rounded-lg py-2 text-xs sm:text-sm font-semibold bg-amber-500 text-slate-950 shadow transition';
+        btnInc.className = 'rounded-lg py-2 text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition';
+        catWrap.classList.remove('hidden');
+        submitBtn.textContent = 'Registrar Gasto';
+        submitBtn.className = 'w-full rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 text-sm shadow-lg shadow-amber-500/20 transition active:scale-[0.99]';
+      } else {
+        btnInc.className = 'rounded-lg py-2 text-xs sm:text-sm font-semibold bg-emerald-500 text-slate-950 shadow transition';
+        btnExp.className = 'rounded-lg py-2 text-xs sm:text-sm font-semibold text-slate-400 hover:text-white transition';
+        catWrap.classList.add('hidden');
+        submitBtn.textContent = 'Sumar Ingreso Extra';
+        submitBtn.className = 'w-full rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 text-sm shadow-lg shadow-emerald-500/20 transition active:scale-[0.99]';
+      }
+    }
+
+    function handleAddTransaction(e) {
+      e.preventDefault();
+      const type = document.getElementById('txType').value;
+      const concept = document.getElementById('txConcept').value.trim();
+      const amount = parseFloat(document.getElementById('txAmount').value);
+      const date = document.getElementById('txDate').value;
+      const categoryId = document.getElementById('txCategory').value;
+      const paymentMethod = document.getElementById('txPaymentMethod').value;
+
+      if (!concept || isNaN(amount) || amount <= 0) {
+        showToast('Introduce un concepto y una cantidad válida.', 'error');
+        return;
+      }
+
+      const newTx = {
+        id: 'tx_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        type,
+        concept,
+        amount: Math.round(amount * 100) / 100,
+        date,
+        categoryId: type === 'expense' ? categoryId : null,
+        paymentMethod
+      };
+
+      const mData = getActiveMonthObj();
+      mData.transactions.unshift(newTx);
+      saveState();
+
+      document.getElementById('txConcept').value = '';
+      document.getElementById('txAmount').value = '';
+
+      renderAll();
+      showToast(type === 'expense' ? `Gasto de ${formatEuro(newTx.amount)} registrado.` : `Ingreso extra de ${formatEuro(newTx.amount)} añadido.`, 'success');
+    }
+
+    function deleteTransaction(txId) {
+      const mData = getActiveMonthObj();
+      mData.transactions = mData.transactions.filter(t => t.id !== txId);
+      saveState();
+      renderAll();
+      showToast('Movimiento eliminado.', 'info');
+    }
+
+    function renderTransactionsList() {
+      const mData = getActiveMonthObj();
+      const catFilter = document.getElementById('filterCategorySelect').value;
+      const payFilter = document.getElementById('filterPaymentSelect').value;
+      const searchQuery = document.getElementById('searchTxInput').value.trim().toLowerCase();
+      const container = document.getElementById('transactionsListContainer');
+
+      let filtered = [...mData.transactions];
+      if (catFilter === 'income') {
+        filtered = filtered.filter(t => t.type === 'income');
+      } else if (catFilter !== 'all') {
+        filtered = filtered.filter(t => t.type === 'expense' && t.categoryId === catFilter);
+      }
+
+      if (payFilter !== 'all') {
+        filtered = filtered.filter(t => (t.paymentMethod || 'Tarjeta') === payFilter);
+      }
+
+      if (searchQuery) {
+        filtered = filtered.filter(t => t.concept.toLowerCase().includes(searchQuery));
+      }
+
+      filtered.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="py-10 text-center">
+            <p class="text-sm text-slate-400">No hay movimientos que coincidan con los filtros actuales.</p>
+            <p class="text-xs text-slate-500 mt-1">Registra tus gastos o ingresos en el formulario superior.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(tx => {
+        const isIncome = tx.type === 'income';
+        const cat = !isIncome ? mData.categories.find(c => c.id === tx.categoryId) : null;
+        const catName = isIncome ? 'Ingreso Extra' : (cat ? `${cat.icon || ''} ${cat.name}` : 'Sin categoría');
+        const palette = isIncome
+          ? COLOR_PALETTE.emerald
+          : (cat && COLOR_PALETTE[cat.color] ? COLOR_PALETTE[cat.color] : COLOR_PALETTE.amber);
+
+        return `
+          <div class="py-3.5 flex items-center justify-between gap-3 hover:bg-slateDark/40 px-2 rounded-xl transition">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border ${palette.badge} font-bold text-sm">
+                ${isIncome ? '+' : '−'}
+              </div>
+              <div class="min-w-0">
+                <p class="text-sm font-semibold text-white truncate">${escapeHtml(tx.concept)}</p>
+                <div class="flex flex-wrap items-center gap-2 mt-0.5">
+                  <span class="text-[11px] font-medium ${palette.text}">${escapeHtml(catName)}</span>
+                  <span class="rounded bg-slateDark border border-slateBorder px-1.5 py-0.5 text-[10px] text-slate-300">${escapeHtml(tx.paymentMethod || 'Tarjeta')}</span>
+                  <span class="text-[11px] text-slate-500">${tx.date || ''}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 shrink-0">
+              <span class="text-sm sm:text-base font-bold tabular-nums ${isIncome ? 'text-emerald-400' : 'text-slate-100'}">
+                ${isIncome ? '+' : '−'}${formatEuro(tx.amount)}
+              </span>
+              <button type="button" onclick="deleteTransaction('${tx.id}')" class="rounded-lg p-1.5 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition" title="Eliminar movimiento">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // =========================================================================
+    // 7. GRÁFICOS NATIVOS SVG (100% AUTOCONTENIDOS, SIN DEPENDENCIAS EXTERNAS)
+    // =========================================================================
+    function renderNativeCharts() {
+      renderNativeDonutChart();
+      renderNativeAnnualBarChart();
+    }
+
+    function renderNativeDonutChart() {
+      const container = document.getElementById('nativeDonutChartContainer');
+      const mData = getActiveMonthObj();
+      const metrics = calculateMonthMetrics(appState.activeMonthKey);
+
+      const slices = [];
+      mData.categories.forEach(cat => {
+        const spent = metrics.spentByCategory[cat.id] || 0;
+        if (spent > 0) {
+          slices.push({
+            label: cat.name,
+            value: spent,
+            color: (COLOR_PALETTE[cat.color] || COLOR_PALETTE.amber).hex
+          });
+        }
+      });
+
+      const netSave = Math.max(0, metrics.netSavings);
+      if (netSave > 0 || slices.length === 0) {
+        slices.push({
+          label: 'Ahorro Neto',
+          value: netSave,
+          color: '#10b981'
+        });
+      }
+
+      const total = slices.reduce((sum, s) => sum + s.value, 0) || 1;
+      const radius = 58;
+      const circumference = 2 * Math.PI * radius;
+      let cumulativePercent = 0;
+
+      const circlesSvg = slices.map(slice => {
+        const pct = slice.value / total;
+        const dashArray = `${pct * circumference} ${circumference}`;
+        const dashOffset = -cumulativePercent * circumference;
+        cumulativePercent += pct;
+        return `
+          <circle
+            cx="75" cy="75" r="${radius}"
+            fill="transparent"
+            stroke="${slice.color}"
+            stroke-width="20"
+            stroke-dasharray="${dashArray}"
+            stroke-dashoffset="${dashOffset}"
+            transform="rotate(-90 75 75)"
+          />
+        `;
+      }).join('');
+
+      const legendHtml = slices.map(slice => {
+        const pctLabel = Math.round((slice.value / total) * 100);
+        return `
+          <div class="flex items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="h-2.5 w-2.5 rounded-full shrink-0" style="background-color: ${slice.color}"></span>
+              <span class="text-slate-300 truncate">${escapeHtml(slice.label)}</span>
+            </div>
+            <span class="font-semibold text-white tabular-nums shrink-0">${pctLabel}% · ${formatEuro(slice.value)}</span>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = `
+        <div class="relative h-40 w-40 shrink-0 flex items-center justify-center">
+          <svg viewBox="0 0 150 150" class="w-full h-full">
+            <circle cx="75" cy="75" r="${radius}" fill="transparent" stroke="#1e293b" stroke-width="20" />
+            ${circlesSvg}
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+            <span class="text-[10px] uppercase tracking-wider text-slate-400">Ahorro</span>
+            <span class="text-sm font-extrabold text-emerald-400 tabular-nums">${metrics.savingsRatePct}%</span>
+          </div>
+        </div>
+        <div class="w-full space-y-2">
+          ${legendHtml}
+        </div>
+      `;
+    }
+
+    function renderNativeAnnualBarChart() {
+      const container = document.getElementById('nativeAnnualBarChartContainer');
+      const months2027 = MONTHS_CONFIG.filter(m => m.year === 2027);
+
+      let runningCum = 0;
+      const points = months2027.map(m => {
+        const metrics = calculateMonthMetrics(m.key);
+        runningCum += metrics.netSavings;
+        return {
+          key: m.key,
+          shortLabel: m.label.replace(' 2027', ''),
+          savings: metrics.netSavings,
+          cumSavings: runningCum,
+          goal: metrics.savingsGoal
+        };
+      });
+
+      const maxBarVal = Math.max(100, ...points.map(p => Math.max(p.savings, p.goal)));
+      const maxCumVal = Math.max(100, ...points.map(p => Math.max(0, p.cumSavings)));
+
+      // Curva SVG nativa de ahorro acumulado 2027
+      const svgW = 600;
+      const svgH = 74;
+      const padX = 24;
+      const usableW = svgW - padX * 2;
+      const coords = points.map((p, idx) => {
+        const x = padX + (points.length > 1 ? (idx / (points.length - 1)) * usableW : usableW / 2);
+        const norm = Math.max(0, p.cumSavings) / maxCumVal;
+        const y = svgH - 12 - norm * (svgH - 24);
+        return { x, y, cum: p.cumSavings, label: p.shortLabel };
+      });
+
+      const linePath = coords.map((c, i) => `${i === 0 ? 'M' : 'L'} ${c.x.toFixed(1)} ${c.y.toFixed(1)}`).join(' ');
+      const areaPath = coords.length > 0
+        ? `${linePath} L ${coords[coords.length - 1].x.toFixed(1)} ${svgH - 8} L ${coords[0].x.toFixed(1)} ${svgH - 8} Z`
+        : '';
+
+      const dotsSvg = coords.map(c => `
+        <circle cx="${c.x.toFixed(1)}" cy="${c.y.toFixed(1)}" r="3.5" fill="#10b981" stroke="#090b0f" stroke-width="1.5">
+          <title>${c.label} 2027 · Acumulado: ${formatEuro(c.cum)}</title>
+        </circle>
+      `).join('');
+
+      const barsHtml = points.map(p => {
+        const isCurrent = p.key === appState.activeMonthKey;
+        const heightPct = Math.max(4, Math.min(100, Math.round((Math.max(0, p.savings) / maxBarVal) * 100)));
+        const metGoal = p.savings >= p.goal;
+        const barBg = p.savings < 0
+          ? 'bg-rose-500'
+          : metGoal
+          ? 'bg-gradient-to-t from-emerald-600 to-emerald-400'
+          : 'bg-gradient-to-t from-cyan-600 to-cyan-400';
+
+        return `
+          <button
+            type="button"
+            onclick="selectMonth('${p.key}')"
+            class="group flex flex-col items-center justify-end h-44 flex-1 min-w-[38px] focus:outline-none"
+            title="${p.shortLabel} 2027 · Ahorro mes: ${formatEuro(p.savings)} | Acumulado: ${formatEuro(p.cumSavings)}"
+          >
+            <span class="mb-1 text-[10px] font-semibold tabular-nums text-slate-400 group-hover:text-white transition">
+              ${Math.round(p.savings)}€
+            </span>
+            <div class="w-full max-w-[26px] h-28 bg-slateDark rounded-t-lg flex items-end overflow-hidden border ${isCurrent ? 'border-emerald-400' : 'border-slateBorder/60'}">
+              <div class="w-full rounded-t-md transition-all duration-300 ${barBg}" style="height: ${heightPct}%"></div>
+            </div>
+            <span class="mt-1.5 text-[11px] font-semibold ${isCurrent ? 'text-emerald-400' : 'text-slate-400 group-hover:text-slate-200'}">
+              ${p.shortLabel}
+            </span>
+          </button>
+        `;
+      }).join('');
+
+      container.innerHTML = `
+        <div class="flex items-end justify-between gap-1.5 pt-1 px-1">
+          ${barsHtml}
+        </div>
+        <div class="mt-3 pt-2.5 border-t border-slateBorder/70">
+          <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1 px-1">
+            <span>Curva de ahorro acumulado 2027</span>
+            <span class="text-emerald-400 font-semibold tabular-nums">Cierre 2027: ${formatEuro(runningCum)}</span>
+          </div>
+          <svg viewBox="0 0 ${svgW} ${svgH}" class="w-full h-16 overflow-visible">
+            <defs>
+              <linearGradient id="cumAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#10b981" stop-opacity="0.32" />
+                <stop offset="100%" stop-color="#10b981" stop-opacity="0.02" />
+              </linearGradient>
+            </defs>
+            ${areaPath ? `<path d="${areaPath}" fill="url(#cumAreaGrad)" />` : ''}
+            ${linePath ? `<path d="${linePath}" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />` : ''}
+            ${dotsSvg}
+          </svg>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // 8. MODALES: SUELDO, CATEGORÍAS, AJUSTES Y COPIAS JSON
+    // =========================================================================
+    function openModal(id) {
+      const el = document.getElementById(id);
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+    }
+
+    function openEditIncomeModal() {
+      const mData = getActiveMonthObj();
+      document.getElementById('inputBaseSalary').value = mData.baseSalary;
+      document.getElementById('inputSavingsGoal').value = mData.savingsGoal;
+      document.getElementById('applySalaryAllMonths').checked = true;
+      openModal('editIncomeModal');
+    }
+
+    function saveIncomeAndGoal(e) {
+      e.preventDefault();
+      const baseSalary = Math.max(0, parseFloat(document.getElementById('inputBaseSalary').value) || 0);
+      const savingsGoal = Math.max(0, parseFloat(document.getElementById('inputSavingsGoal').value) || 0);
+      const applyFuture = document.getElementById('applySalaryAllMonths').checked;
+
+      const currentIdx = MONTHS_CONFIG.findIndex(m => m.key === appState.activeMonthKey);
+      MONTHS_CONFIG.forEach((m, idx) => {
+        if (idx === currentIdx || (applyFuture && idx > currentIdx)) {
+          appState.months[m.key].baseSalary = baseSalary;
+          appState.months[m.key].savingsGoal = savingsGoal;
+        }
+      });
+
+      saveState();
+      closeModal('editIncomeModal');
+      renderAll();
+      showToast('Ingresos y objetivo de ahorro actualizados.', 'success');
+    }
+
+    function openAddCategoryModal() {
+      document.getElementById('categoryModalTitle').textContent = 'Nueva Categoría de Gasto';
+      document.getElementById('editCategoryId').value = '';
+      document.getElementById('catIconInput').value = '🛒';
+      document.getElementById('catNameInput').value = '';
+      document.getElementById('catBudgetInput').value = '';
+      document.getElementById('catColorInput').value = 'cyan';
+      document.getElementById('applyCatAllMonths').checked = true;
+      openModal('categoryModal');
+    }
+
+    function openEditCategoryModal(catId) {
+      const mData = getActiveMonthObj();
+      const cat = mData.categories.find(c => c.id === catId);
+      if (!cat) return;
+
+      document.getElementById('categoryModalTitle').textContent = 'Editar Categoría';
+      document.getElementById('editCategoryId').value = cat.id;
+      document.getElementById('catIconInput').value = cat.icon || '🛒';
+      document.getElementById('catNameInput').value = cat.name;
+      document.getElementById('catBudgetInput').value = cat.budget;
+      document.getElementById('catColorInput').value = cat.color || 'emerald';
+      document.getElementById('applyCatAllMonths').checked = true;
+      openModal('categoryModal');
+    }
+
+    function saveCategoryForm(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editCategoryId').value;
+      const icon = document.getElementById('catIconInput').value;
+      const name = document.getElementById('catNameInput').value.trim();
+      const budget = Math.max(0, parseFloat(document.getElementById('catBudgetInput').value) || 0);
+      const color = document.getElementById('catColorInput').value;
+      const applyFuture = document.getElementById('applyCatAllMonths').checked;
+
+      if (!name) return;
+
+      const currentIdx = MONTHS_CONFIG.findIndex(m => m.key === appState.activeMonthKey);
+      const targetMonths = MONTHS_CONFIG
+        .filter((_, idx) => idx === currentIdx || (applyFuture && idx > currentIdx))
+        .map(m => m.key);
+
+      if (editId) {
+        targetMonths.forEach(mKey => {
+          const cat = appState.months[mKey].categories.find(c => c.id === editId);
+          if (cat) {
+            cat.icon = icon;
+            cat.name = name;
+            cat.budget = budget;
+            cat.color = color;
+          }
+        });
+        showToast('Categoría actualizada.', 'success');
+      } else {
+        const newId = 'cat_' + Date.now();
+        targetMonths.forEach(mKey => {
+          appState.months[mKey].categories.push({ id: newId, icon, name, budget, color });
+        });
+        showToast(`Categoría "${name}" creada.`, 'success');
+      }
+
+      saveState();
+      closeModal('categoryModal');
+      renderAll();
+    }
+
+    function deleteCategory(catId) {
+      const mData = getActiveMonthObj();
+      mData.categories = mData.categories.filter(c => c.id !== catId);
+      saveState();
+      renderAll();
+      showToast('Categoría eliminada de este mes.', 'info');
+    }
+
+    function openSettingsModal() {
+      document.getElementById('settingsUserNameInput').value = (appState.profile && appState.profile.userName) || '';
+      const hasPin = Boolean(appState.security.pinEnabled && appState.security.pinCode);
+      document.getElementById('togglePinLockCheckbox').checked = hasPin;
+      document.getElementById('currentPinBadge').textContent = hasPin ? `PIN activo: ${appState.security.pinCode}` : 'Sin PIN activo';
+      document.getElementById('newPinInput').value = '';
+      document.getElementById('confirmPinInput').value = '';
+      pendingResetConfirmation = false;
+      openModal('settingsModal');
+    }
+
+    function saveUserProfileName(e) {
+      e.preventDefault();
+      if (!appState.profile) appState.profile = {};
+      appState.profile.userName = document.getElementById('settingsUserNameInput').value.trim();
+      saveState();
+      renderHeaderGreeting();
+      showToast('Nombre actualizado.', 'success');
+    }
+
+    function togglePinEnabled(enabled) {
+      if (enabled && !/^\d{4}$/.test(appState.security.pinCode || '')) {
+        document.getElementById('togglePinLockCheckbox').checked = false;
+        showToast('Escribe primero un PIN de 4 dígitos abajo y pulsa "Guardar PIN".', 'info');
+        document.getElementById('newPinInput').focus();
+        return;
+      }
+      appState.security.pinEnabled = enabled;
+      saveState();
+      document.getElementById('currentPinBadge').textContent = enabled ? `PIN activo: ${appState.security.pinCode}` : 'PIN desactivado';
+      showToast(enabled ? 'Bloqueo por PIN activado.' : 'Bloqueo por PIN desactivado.', 'info');
+    }
+
+    function changePinCode(e) {
+      e.preventDefault();
+      const p1 = document.getElementById('newPinInput').value.trim();
+      const p2 = document.getElementById('confirmPinInput').value.trim();
+
+      if (!/^\d{4}$/.test(p1)) {
+        showToast('El PIN debe tener exactamente 4 números.', 'error');
+        return;
+      }
+      if (p1 !== p2) {
+        showToast('Los códigos PIN no coinciden.', 'error');
+        return;
+      }
+
+      appState.security.pinCode = p1;
+      appState.security.pinEnabled = true;
+      localStorage.setItem(PIN_STORAGE_KEY, p1);
+      saveState();
+
+      document.getElementById('togglePinLockCheckbox').checked = true;
+      document.getElementById('currentPinBadge').textContent = `PIN activo: ${p1}`;
+      document.getElementById('newPinInput').value = '';
+      document.getElementById('confirmPinInput').value = '';
+      showToast(`PIN personal guardado correctamente (${p1}).`, 'success');
+    }
+
+    function resetAllDataConfirm() {
+      if (!pendingResetConfirmation) {
+        pendingResetConfirmation = true;
+        showToast('Pulsa de nuevo en "Restablecer de fábrica" para borrar y volver al inicio.', 'error');
+        return;
+      }
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(PIN_STORAGE_KEY);
+      appState = null;
+      closeModal('settingsModal');
+      showOnboarding();
+    }
+
+    // =========================================================================
+    // 9. EXPORTAR E IMPORTAR COPIA DE SEGURIDAD JSON
+    // =========================================================================
+    function exportBackupJSON() {
+      try {
+        const dataStr = JSON.stringify(appState, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'paso_a_paso_2027_impulso_real_backup.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Copia de seguridad paso_a_paso_2027_impulso_real_backup.json descargada.', 'success');
+      } catch (err) {
+        showToast('No se pudo exportar el archivo.', 'error');
+      }
+    }
+
+    function importBackupJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!parsed || !parsed.months || !parsed.security) {
+            throw new Error('Formato de archivo no válido');
+          }
+          appState = parsed;
+          saveState();
+          document.getElementById('onboardingScreen').classList.add('hidden');
+          document.getElementById('lockScreen').classList.add('hidden');
+          renderAll();
+          showToast('Datos restaurados correctamente desde tu copia JSON.', 'success');
+        } catch (err) {
+          showToast('El archivo JSON no es válido o está dañado.', 'error');
+        }
+        event.target.value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    // =========================================================================
+    // 10. TOASTS Y UTILIDADES SEGURAS
+    // =========================================================================
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      const styles = {
+        success: 'bg-emerald-950/95 border-emerald-500/40 text-emerald-200',
+        error: 'bg-rose-950/95 border-rose-500/40 text-rose-200',
+        info: 'bg-slateCard/95 border-slateBorder text-slate-200'
+      };
+      toast.className = `pointer-events-auto rounded-xl border px-4 py-3 text-xs sm:text-sm font-medium shadow-xl backdrop-blur-md transition-all duration-300 ${styles[type] || styles.info}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(8px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // =========================================================================
+    // 11. SOPORTE PWA (MANIFEST DINÁMICO, SERVICE WORKER Y ANDROID INSTALL)
+    // =========================================================================
+    let deferredInstallPrompt = null;
+
+    function createPwaIconDataUri(bgHex, accentHex) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="112" fill="${bgHex}"/><rect x="36" y="36" width="440" height="440" rx="88" fill="none" stroke="${accentHex}" stroke-opacity="0.35" stroke-width="8"/><text x="256" y="292" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="168" font-weight="800" fill="${accentHex}">TP</text></svg>`;
+      return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+    }
+
+    function setupDynamicPwaManifest() {
+      try {
+        const iconSrc = createPwaIconDataUri('#090b0f', '#10b981');
+        const manifestObj = {
+          name: 'Paso a Paso 2027 · Impulso Real by Tommy',
+          short_name: 'Paso a Paso 2027',
+          description: 'Cada euro cuenta · Prosperidad desde lo cotidiano. Control financiero mensual, presupuestos y ahorro 2027.',
+          start_url: './',
+          scope: './',
+          display: 'standalone',
+          background_color: '#090b0f',
+          theme_color: '#10b981',
+          orientation: 'portrait-primary',
+          icons: [
+            { src: iconSrc, sizes: '192x192', type: 'image/svg+xml', purpose: 'any' },
+            { src: iconSrc, sizes: '512x512', type: 'image/svg+xml', purpose: 'any maskable' }
+          ]
+        };
+        const blob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
+        const manifestUrl = URL.createObjectURL(blob);
+        const linkEl = document.getElementById('pwaManifestLink');
+        if (linkEl) {
+          linkEl.href = manifestUrl;
+        }
+      } catch (err) {
+        console.warn('No se pudo inyectar el manifiesto PWA dinámico:', err);
+      }
+    }
+
+    function registerOfflineServiceWorkerFallback() {
+      if (!('serviceWorker' in navigator)) return;
+      const isHttpsOrLocalhost =
+        location.protocol === 'https:' ||
+        location.hostname === 'localhost' ||
+        location.hostname === '127.0.0.1';
+      if (!isHttpsOrLocalhost) return;
+
+      const swCode = `
+        const CACHE_NAME = 'paso-a-paso-2027-pwa-v1';
+        self.addEventListener('install', (event) => {
+          event.waitUntil(
+            caches.open(CACHE_NAME).then((cache) => {
+              return cache.addAll([self.registration.scope]).catch(() => Promise.resolve());
+            })
+          );
+          self.skipWaiting();
+        });
+        self.addEventListener('activate', (event) => {
+          event.waitUntil(
+            caches.keys().then((keys) =>
+              Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+            )
+          );
+          self.clients.claim();
+        });
+        self.addEventListener('fetch', (event) => {
+          if (event.request.method !== 'GET') return;
+          event.respondWith(
+            fetch(event.request)
+              .then((networkRes) => {
+                const clone = networkRes.clone();
+                caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone).catch(() => {}));
+                return networkRes;
+              })
+              .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./')))
+          );
+        });
+      `;
+
+      try {
+        const swBlob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(swBlob);
+        navigator.serviceWorker.register(swUrl, { scope: './' }).catch((err) => {
+          console.warn('Registro de Service Worker no disponible en este contexto:', err);
+        });
+      } catch (err) {
+        console.warn('Error creando Service Worker fallback:', err);
+      }
+    }
+
+    function updateInstallUiState() {
+      const btnLabel = document.getElementById('installAppBtnLabel');
+      const bannerBtn = document.getElementById('pwaBannerInstallAction');
+      const guideText = document.getElementById('pwaAndroidGuideText');
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+      if (isStandalone) {
+        if (btnLabel) btnLabel.textContent = 'App Instalada';
+        if (bannerBtn) bannerBtn.textContent = 'Ver guía APK';
+        if (guideText) {
+          guideText.innerHTML = 'Ya estás usando <strong>Paso a Paso 2027</strong> en modo app. Si quieres un archivo <strong>.apk</strong> para compartir, usa <strong>PWABuilder</strong> con tu enlace HTTPS.';
+        }
+        return;
+      }
+
+      if (deferredInstallPrompt) {
+        if (btnLabel) btnLabel.textContent = 'Descargar / Instalar App';
+        if (bannerBtn) bannerBtn.textContent = 'Instalar en Android';
+      } else {
+        if (btnLabel) btnLabel.textContent = 'Instalar / Descargar App';
+        if (bannerBtn) bannerBtn.textContent = 'Cómo instalar';
+      }
+    }
+
+    async function triggerInstallOrGuide() {
+      if (deferredInstallPrompt) {
+        try {
+          deferredInstallPrompt.prompt();
+          const choice = await deferredInstallPrompt.userChoice;
+          deferredInstallPrompt = null;
+          updateInstallUiState();
+          if (choice && choice.outcome === 'accepted') {
+            showToast('¡App instalada en tu dispositivo!', 'success');
+          } else {
+            showToast('Instalación cancelada. Puedes instalarla cuando quieras.', 'info');
+          }
+          return;
+        } catch (err) {
+          deferredInstallPrompt = null;
+          updateInstallUiState();
+        }
+      }
+
+      const banner = document.getElementById('pwaAndroidBanner');
+      if (banner) {
+        banner.classList.remove('hidden');
+        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      showToast('En Android Chrome: toca ⋮ → «Instalar aplicación» o usa PWABuilder para generar .apk.', 'info');
+    }
+
+    function dismissPwaBanner() {
+      const banner = document.getElementById('pwaAndroidBanner');
+      if (banner) {
+        banner.classList.add('hidden');
+      }
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      updateInstallUiState();
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredInstallPrompt = null;
+      updateInstallUiState();
+      showToast('Paso a Paso 2027 · Impulso Real by Tommy instalado en tu móvil.', 'success');
+    });
+
+    // =========================================================================
+    // ARRANQUE DE TOMMYPLAN 2027
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      setupDynamicPwaManifest();
+      registerOfflineServiceWorkerFallback();
+      updateInstallUiState();
+      loadState();
+      if (!appState) {
+        showOnboarding();
+      } else {
+        initSecurityScreen();
+        renderAll();
+      }
+    });
+  </script>
+</body>
+</html>
